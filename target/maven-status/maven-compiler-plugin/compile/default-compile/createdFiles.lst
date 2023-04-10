@@ -1,0 +1,12 @@
+ru\yandex\praktikum\diplom_2\model\Order.class
+ru\yandex\praktikum\diplom_2\model\CreatingOrderResponse.class
+ru\yandex\praktikum\diplom_2\model\GetOrdersResponse.class
+ru\yandex\praktikum\diplom_2\model\User.class
+ru\yandex\praktikum\diplom_2\model\IngredientsMethods.class
+ru\yandex\praktikum\diplom_2\model\UserAccount.class
+ru\yandex\praktikum\diplom_2\model\BurgersRestClient.class
+ru\yandex\praktikum\diplom_2\model\OrderMethods.class
+ru\yandex\praktikum\diplom_2\model\OrderForGetOrdersResponse.class
+ru\yandex\praktikum\diplom_2\model\UserMethods.class
+ru\yandex\praktikum\diplom_2\model\Ingredients.class
+ru\yandex\praktikum\diplom_2\model\Ingredient.class
