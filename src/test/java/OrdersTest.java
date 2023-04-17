@@ -46,32 +46,36 @@ public class OrdersTest {
     @DisplayName("Получение заказов конкретного пользователя с авторизацией")
     @Description("Проверям код ответа, ингредиенты, и количество заказов (тут баг убрал из проверки)")
     public void GetUserOrdersWithAuthorizationPositiveResult() {
-        int totalExpected = 2;
-        String firstIngredientForFirstOrderExpected = "61c0c5a71d1f82001bdaaa6d";
-        String secondIngredientForFirstOrderExpected = "61c0c5a71d1f82001bdaaa6f";
-        List<String> ingredientsData = Arrays.asList(firstIngredientForFirstOrderExpected, secondIngredientForFirstOrderExpected);
+        //int totalExpected = 2;
+        IngredientsMethods ingredientsMethods = new IngredientsMethods();
+        GetIngredientsResponse getIngredientsResponse = ingredientsMethods.get().as(GetIngredientsResponse.class);
+        String firstIdForFirstOrderExpected = getIngredientsResponse.getData().get(0).get_id();
+        //String firstNameForFirstOrderExpected = getIngredientsResponse.getData().get(0).getName();
+        String secondIdForFirstOrderExpected = getIngredientsResponse.getData().get(1).get_id();
+        //String secondNameForFirstOrderExpected = getIngredientsResponse.getData().get(1).getName();
+        List<String> ingredientsData = Arrays.asList(firstIdForFirstOrderExpected, secondIdForFirstOrderExpected);
         ingredients = new Ingredients(ingredientsData);
         orderMethods.create(ingredients, accessToken);
-        String firstIngredientForSecondOrderExpected = "61c0c5a71d1f82001bdaaa70";
-        String secondIngredientForSecondOrderExpected = "61c0c5a71d1f82001bdaaa71";
-        ingredientsData = Arrays.asList(firstIngredientForSecondOrderExpected, secondIngredientForSecondOrderExpected);
+        String firstIdForSecondOrderExpected = getIngredientsResponse.getData().get(2).get_id();;
+        String secondIdForSecondOrderExpected = getIngredientsResponse.getData().get(3).get_id();
+        ingredientsData = Arrays.asList(firstIdForSecondOrderExpected, secondIdForSecondOrderExpected);
         ingredients = new Ingredients(ingredientsData);
         orderMethods.create(ingredients, accessToken);
         Response getUserOrdersResponse = orderMethods.getUserOrders(accessToken);
         //System.out.println(getUserOrdersResponse.then().extract().asString());
         GetOrdersResponse getOrdersResponse = getUserOrdersResponse.as(GetOrdersResponse.class);
         int statusCode = getUserOrdersResponse.then().extract().statusCode();
-        int totalActual = getOrdersResponse.getTotal();
-        String firstIngredientForFirstOrderActual = getOrdersResponse.getOrders().get(0).getIngredients().get(0);
-        String secondIngredientForFirstOrderActual = getOrdersResponse.getOrders().get(0).getIngredients().get(1);
-        String firstIngredientForSecondOrderActual = getOrdersResponse.getOrders().get(1).getIngredients().get(0);
-        String secondIngredientForSecondOrderActual = getOrdersResponse.getOrders().get(1).getIngredients().get(1);
+        //int totalActual = getOrdersResponse.getTotal();
+        String firstIdForFirstOrderActual = getOrdersResponse.getOrders().get(0).getIngredients().get(0);
+        String secondIdForFirstOrderActual = getOrdersResponse.getOrders().get(0).getIngredients().get(1);
+        String firstIdForSecondOrderActual = getOrdersResponse.getOrders().get(1).getIngredients().get(0);
+        String secondIdForSecondOrderActual = getOrdersResponse.getOrders().get(1).getIngredients().get(1);
         assertEquals("Не верный код статуса", HTTP_OK, statusCode);
         //assertEquals("Не верное количество заказов", totalExpected, totalActual);
-        assertEquals("Не верный хэш первого ингредиента в первом заказе", firstIngredientForFirstOrderExpected, firstIngredientForFirstOrderActual);
-        assertEquals("Не верный хэш второго ингредиента в первом заказе", secondIngredientForFirstOrderExpected, secondIngredientForFirstOrderActual);
-        assertEquals("Не верный хэш первого ингредиента во втором заказе", firstIngredientForSecondOrderExpected, firstIngredientForSecondOrderActual);
-        assertEquals("Не верный хэш второго ингредиента во втором заказе", secondIngredientForSecondOrderExpected, secondIngredientForSecondOrderActual);
+        assertEquals("Не верный хэш первого ингредиента в первом заказе", firstIdForFirstOrderExpected, firstIdForFirstOrderActual);
+        assertEquals("Не верный хэш второго ингредиента в первом заказе", secondIdForFirstOrderExpected, secondIdForFirstOrderActual);
+        assertEquals("Не верный хэш первого ингредиента во втором заказе", firstIdForSecondOrderExpected, firstIdForSecondOrderActual);
+        assertEquals("Не верный хэш второго ингредиента во втором заказе", secondIdForSecondOrderExpected, secondIdForSecondOrderActual);
     }
 
     @Test
